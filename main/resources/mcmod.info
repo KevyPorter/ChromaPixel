@@ -1,0 +1,16 @@
+[
+{
+  "modid": "chromapixelmod",
+  "name": "Chroma Pixel",
+  "description": "Best Mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["KevyPorter"],
+  "credits": "Ty palechip for some code xd",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
