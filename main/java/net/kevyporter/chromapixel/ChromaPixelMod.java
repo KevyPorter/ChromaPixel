@@ -1,7 +1,9 @@
 package net.kevyporter.chromapixel;
 
 import net.kevyporter.chromapixel.api.interaction.Queue;
-import net.kevyporter.chromapixel.extrahud.ExtraHUD;
+import net.kevyporter.chromapixel.extrahud.ArmorHUD;
+import net.kevyporter.chromapixel.extrahud.EffectHUD;
+import net.kevyporter.chromapixel.extrahud.InfoHUD;
 import net.kevyporter.chromapixel.listeners.AutoLobbyCommand;
 import net.kevyporter.chromapixel.util.ChromaUtils;
 import net.minecraft.client.Minecraft;
@@ -104,9 +106,11 @@ public class ChromaPixelMod
 	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) {
 		try {
-			if(Minecraft.getMinecraft().func_147104_D() != null){
-				ExtraHUD.renderDisplay();
-			}
+			//if(Minecraft.getMinecraft().func_147104_D() != null){
+				InfoHUD.renderDisplay();
+				ArmorHUD.render();
+				EffectHUD.render();
+			//}
 		} catch(Exception e) {
 			logWarn("An exception occured in onRenderTick(). Stacktrace below.");
 			e.printStackTrace();
@@ -117,10 +121,10 @@ public class ChromaPixelMod
 	public void onKeyInput(KeyInputEvent event) {
 		try {
 			if(this.hideHUDKey.isPressed()) {
-				ExtraHUD.isEnabled = !ExtraHUD.isEnabled;
+				InfoHUD.isEnabled = !InfoHUD.isEnabled;
 			}
 			if(this.hideCoordsKey.isPressed()) {
-				ExtraHUD.showCoords = !ExtraHUD.showCoords; 
+				InfoHUD.showCoords = !InfoHUD.showCoords; 
 			}
 			if(this.hubKey.isPressed()) {
 				Minecraft.getMinecraft().thePlayer.sendChatMessage("/hub");
