@@ -124,7 +124,7 @@ public class ChromaPixelMod
 						ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 						FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 						String updateMessage = EnumChatFormatting.RED + "UPDATE Version: " + EnumChatFormatting.YELLOW + ChromaPixelUpdater.update;
-						String forumLink = EnumChatFormatting.GOLD + "Download from here: " + EnumChatFormatting.GREEN + "http://bit.ly/ChromaPixelMod";
+						String forumLink = EnumChatFormatting.GOLD + "Download from here: " + EnumChatFormatting.GREEN + "http://bit.ly/TheChromaPixelMod";
 						int y = res.getScaledHeight() / 2 - 10;
 						int x = res.getScaledWidth() / 2 - (fontRenderer.getStringWidth(updateMessage) / 2);
 						fontRenderer.drawString(updateMessage, x, y, 0xffffff, true);
