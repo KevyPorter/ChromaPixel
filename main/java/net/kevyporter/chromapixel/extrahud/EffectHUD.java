@@ -26,7 +26,7 @@ public class EffectHUD {
 
 	public static void render()
 	{
-		if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled)/* && (Minecraft.getMinecraft().func_147104_D() != null)*/) {
+		if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
 			Collection potionEffects = mc.thePlayer.getActivePotionEffects();
 			Iterator it = potionEffects.iterator();
 

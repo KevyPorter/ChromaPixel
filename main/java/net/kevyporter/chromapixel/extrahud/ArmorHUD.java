@@ -20,9 +20,9 @@ public class ArmorHUD {
 	private static List<ItemStack> inv = new ArrayList<ItemStack>();
 
 	public static boolean isEnabled = true;
-	
+
 	public static void render() {
-		if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) && (isEnabled)) {
+		if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
 			ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderHelper.enableStandardItemLighting();

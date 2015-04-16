@@ -32,12 +32,8 @@ public class InfoHUD {
 			ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 			int w = 1;
 			int h = 15;
-			if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled)/* && (Minecraft.getMinecraft().func_147104_D() != null)*/) {
+			if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
 				FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
-				fontRenderer.drawString(ChromaPixelMod.CHROMA_PIXEL + EnumChatFormatting.GOLD + " " + ChromaPixelMod.VERSION + EnumChatFormatting.BOLD + " BETA", 1, 1, 0xffffff);
-				if(ArmorHUD.isEnabled) {
-					Minecraft.getMinecraft().fontRenderer.drawString(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]", res.getScaledWidth() - (Minecraft.getMinecraft().fontRenderer.getStringWidth(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]") + 1), 1, 0xffffff);
-				}
 				for (int i = 0; i < display.size(); i++) {
 					if ((display.get(i) != null) && (!((String)display.get(i)).isEmpty())) {
 						fontRenderer.drawString((String)display.get(i), w, h, 0xffffff);
@@ -58,7 +54,7 @@ public class InfoHUD {
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "F" + EnumChatFormatting.GRAY + "] " + itemColor + getCoords(3) + EnumChatFormatting.GRAY + " [" + mainColor + getCoords(4) + EnumChatFormatting.GRAY + "]");
 		}
 		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "TIME" + EnumChatFormatting.GRAY + "] " + itemColor + getTime());
-//		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "IP" + EnumChatFormatting.GRAY + "] " + itemColor + getIP());
+		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "IP" + EnumChatFormatting.GRAY + "] " + itemColor + getIP());
 		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PLAYERS" + EnumChatFormatting.GRAY + "] " + itemColor + getPlayers());
 		if(getPing() >= 0 && getPing() <= 99) {
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.GREEN + getPing());
@@ -72,8 +68,8 @@ public class InfoHUD {
 					if(getPing() >= 300 && getPing() <= 399) {
 						display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.RED + getPing());
 					} else {
-							display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.DARK_RED + getPing());
-						}
+						display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.DARK_RED + getPing());
+					}
 		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "FACING" + EnumChatFormatting.GRAY + "] " + itemColor + compass());
 		return display;
 	}
@@ -113,7 +109,7 @@ public class InfoHUD {
 		}
 		return -3;
 	}
-	
+
 	private static int getPlayers() {
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		if (player == null) {
@@ -129,7 +125,7 @@ public class InfoHUD {
 		}
 		return -3;
 	}
-	
+
 	private static String getTime() {
 		return new SimpleDateFormat("h:mm a").format(Calendar.getInstance().getTime());
 	}

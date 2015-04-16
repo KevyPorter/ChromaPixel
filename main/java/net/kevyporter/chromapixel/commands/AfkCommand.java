@@ -67,7 +67,7 @@ public class AfkCommand extends CommandBase
 					for (int i = 0; i < args.length; i++)
 					{
 						if (message.length() > 0) {
-							message.append("");
+							message.append(" ");
 						}
 						message.append(args[i]);
 					}

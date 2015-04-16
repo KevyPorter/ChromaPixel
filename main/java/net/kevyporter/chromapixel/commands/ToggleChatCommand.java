@@ -73,7 +73,7 @@ extends CommandBase
 						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "You will now see guild chat!"));
 					}
 				}
-				else if (args[0].equalsIgnoreCase("")) {
+				else if (args[0].equalsIgnoreCase("party")) {
 					if (ToggleChatListener.partyChat)
 					{
 						ToggleChatListener.partyChat = false;
@@ -85,7 +85,7 @@ extends CommandBase
 						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "You will now see party chat!"));
 					}
 				}
-				else if (args[0].equalsIgnoreCase("")) {
+				else if (args[0].equalsIgnoreCase("pms")) {
 					if (ToggleChatListener.pmsChat)
 					{
 						ToggleChatListener.pmsChat = false;
