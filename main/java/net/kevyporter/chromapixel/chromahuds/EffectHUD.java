@@ -1,8 +1,9 @@
-package net.kevyporter.chromapixel.extrahud;
+package net.kevyporter.chromapixel.chromahuds;
 
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.kevyporter.chromapixel.ChromaPixelConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
@@ -15,18 +16,18 @@ import org.lwjgl.opengl.GL11;
 
 public class EffectHUD {
 
-	public static boolean isEnabled = true;
+	public static boolean isEnabled = ChromaPixelConfig.showEffectHUD;
 
 	private static ResourceLocation inventoryResourceLocation = new ResourceLocation("textures/gui/container/inventory.png");
 
-	public static boolean usePotionColors = true;
+	public static boolean usePotionColors = ChromaPixelConfig.usePotionColors;
 	public static float potionScale = 1.0F;
 
 	private static Minecraft mc = Minecraft.getMinecraft();
 
 	public static void render()
 	{
-		if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
+		if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled)) {
 			Collection potionEffects = mc.thePlayer.getActivePotionEffects();
 			Iterator it = potionEffects.iterator();
 
@@ -65,10 +66,6 @@ public class EffectHUD {
 	{
 		String durationString = Potion.getDurationString(potionEffect);
 		int potionDuration = potionEffect.getDuration();
-		int colorInt = 0xFFFFFF;
-
-		if(usePotionColors)
-			colorInt = potion.getLiquidColor();
 
 		String potionAmp = "I";
 		if (potionEffect.getAmplifier() == 1)
@@ -110,9 +107,15 @@ public class EffectHUD {
 		else if (potionEffect.getAmplifier() > 9) {
 			potionAmp = "" + (potionEffect.getAmplifier() + 1);        
 		}
-
 		
-		mc.fontRenderer.drawString(potionAmp + " " + durationString, x, y, colorInt);
+		if(usePotionColors) {
+			mc.fontRenderer.drawString(potionAmp + " " + durationString, x, y, potion.getLiquidColor());
+		} else {
+			mc.fontRenderer.drawString(InfoHUD.mainColor + potionAmp + " " + InfoHUD.itemColor + durationString, x, y, 0xffffff);
+		}
+			
+		
+		
 	}
 
 	private static void drawPotionIcon(int x, int y, Potion potion)

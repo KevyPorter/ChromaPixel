@@ -1,10 +1,11 @@
-package net.kevyporter.chromapixel.extrahud;
+package net.kevyporter.chromapixel.chromahuds;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import net.kevyporter.chromapixel.ChromaPixelConfig;
 import net.kevyporter.chromapixel.ChromaPixelMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -19,16 +20,16 @@ public class ArmorHUD {
 
 	private static List<ItemStack> inv = new ArrayList<ItemStack>();
 
-	public static boolean isEnabled = true;
+	public static boolean isEnabled = ChromaPixelConfig.showArmorHUD;
 
 	public static void render() {
-		if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
+		if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) && (isEnabled)) {
 			ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderHelper.enableStandardItemLighting();
 			RenderHelper.enableGUIStandardItemLighting();
 			RenderItem itemRenderer = new RenderItem();
-			int h = 15;
+			int h = 25;
 			getInventory();
 			for(int i = 0; i < inv.size(); i++) {
 				itemRenderer.renderItemAndEffectIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), inv.get(i), res.getScaledWidth() - 20, h);

@@ -17,7 +17,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
-public class Command extends CommandBase{
+public class GetStatsCommand extends CommandBase{
 
 	private boolean isOp(ICommandSender sender)
 	{
@@ -28,7 +28,7 @@ public class Command extends CommandBase{
 
 	public String getCommandName()
 	{
-		return "akjwdb";
+		return "getstats";
 	}
 
 	public int getRequiredPermissionLevel()
@@ -43,7 +43,7 @@ public class Command extends CommandBase{
 
 	public String getCommandUsage(ICommandSender sender)
 	{
-		return "/akjwdb <gamemode> <player>";
+		return "/getstats <gamemode> <player>";
 	}
 
 	public void processCommand(ICommandSender sender, String[] args)

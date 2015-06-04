@@ -1,4 +1,4 @@
-package net.kevyporter.chromapixel.extrahud;
+package net.kevyporter.chromapixel.chromahuds;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import net.kevyporter.chromapixel.ChromaPixelMod;
+import net.kevyporter.chromapixel.ChromaPixelConfig;
+import net.kevyporter.chromapixel.dmgreduction.DmgReductionCalc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,13 +18,13 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class ExtraHUD {
+public class InfoHUD {
 
-	private static List<String> display = new ArrayList();
-	public static Boolean isEnabled = true;
-	public static Boolean showCoords = true;
-	public static EnumChatFormatting mainColor = EnumChatFormatting.YELLOW;
-	public static EnumChatFormatting itemColor = EnumChatFormatting.GOLD;
+	public static Boolean isEnabled = ChromaPixelConfig.showInfoHUD;
+	public static Boolean showCoords = ChromaPixelConfig.showAdvCoords;
+	public static String mainColor = ChromaPixelConfig.mainColor.substring(0, 2);
+	public static String itemColor = ChromaPixelConfig.itemColor.substring(0, 2);
+	public static List<String> display = new ArrayList<String>();
 
 	public static void renderDisplay() {
 		if (isEnabled) {
@@ -32,9 +33,8 @@ public class ExtraHUD {
 			ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 			int w = 1;
 			int h = 15;
-			if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled) && (Minecraft.getMinecraft().func_147104_D() != null)) {
+			if ((!mc.gameSettings.showDebugInfo) && (mc.inGameHasFocus) && (!(mc.currentScreen instanceof GuiChat)) && (isEnabled)) {
 				FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
-				fontRenderer.drawString(ChromaPixelMod.CHROMA_PIXEL + EnumChatFormatting.GOLD + " " + ChromaPixelMod.VERSION + EnumChatFormatting.BOLD + " BETA", 1, 1, 0xffffff);
 				for (int i = 0; i < display.size(); i++) {
 					if ((display.get(i) != null) && (!((String)display.get(i)).isEmpty())) {
 						fontRenderer.drawString((String)display.get(i), w, h, 0xffffff);
@@ -46,32 +46,47 @@ public class ExtraHUD {
 	}
 
 	private static List getInfoDisplay() {
-		display.clear();
-		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "FPS" + EnumChatFormatting.GRAY + "] " + itemColor + getFPS());
+		List<String> display = new ArrayList();
+		if(ChromaPixelConfig.showFPS) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "FPS" + EnumChatFormatting.GRAY + "] " + itemColor + getFPS()); }
 		if(showCoords) {
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "X" + EnumChatFormatting.GRAY + "] " + itemColor + getCoords(0));
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Y" + EnumChatFormatting.GRAY + "] " + itemColor + getCoords(1));
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Z" + EnumChatFormatting.GRAY + "] " + itemColor + getCoords(2));
 			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "F" + EnumChatFormatting.GRAY + "] " + itemColor + getCoords(3) + EnumChatFormatting.GRAY + " [" + mainColor + getCoords(4) + EnumChatFormatting.GRAY + "]");
 		}
-		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "TIME" + EnumChatFormatting.GRAY + "] " + itemColor + getTime());
-		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "IP" + EnumChatFormatting.GRAY + "] " + itemColor + getIP());
-		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PLAYERS" + EnumChatFormatting.GRAY + "] " + itemColor + getPlayers());
-		if(getPing() >= 0 && getPing() <= 99) {
-			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.GREEN + getPing());
-		} else
-			if(getPing() >= 100 && getPing() <= 199) {
-				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.YELLOW + getPing());
-			} else
-				if(getPing() >= 200 && getPing() <= 299) {
-					display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.GOLD + getPing());
+		if(ChromaPixelConfig.showTime) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Time" + EnumChatFormatting.GRAY + "] " + itemColor + getTime()); }
+		if(ChromaPixelConfig.showIP) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "IP" + EnumChatFormatting.GRAY + "] " + itemColor + getIP()); }
+		if(ChromaPixelConfig.showPlayers) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Players" + EnumChatFormatting.GRAY + "] " + itemColor + getPlayers()); }
+		if(ChromaPixelConfig.showPing) {
+			if(ChromaPixelConfig.showColoredPing) {
+				if(getPing() >= 0 && getPing() <= 99) {
+					display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.GREEN + getPing());
 				} else
-					if(getPing() >= 300 && getPing() <= 399) {
-						display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.RED + getPing());
-					} else {
-							display.add(EnumChatFormatting.GRAY + "[" + mainColor + "PING" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.DARK_RED + getPing());
-						}
-		display.add(EnumChatFormatting.GRAY + "[" + mainColor + "FACING" + EnumChatFormatting.GRAY + "] " + itemColor + compass());
+					if(getPing() >= 100 && getPing() <= 199) {
+						display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.YELLOW + getPing());
+					} else
+						if(getPing() >= 200 && getPing() <= 299) {
+							display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.GOLD + getPing());
+						} else
+							if(getPing() >= 300 && getPing() <= 399) {
+								display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.RED + getPing());
+							} else {
+								display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + EnumChatFormatting.DARK_RED + getPing());
+							}
+			} else {
+				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Ping" + EnumChatFormatting.GRAY + "] " + itemColor + getPing());
+			}
+		}
+		if(ChromaPixelConfig.showFacing) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Facing" + EnumChatFormatting.GRAY + "] " + itemColor + compass()); }
+		if(ChromaPixelConfig.showDmgReductHud) {
+			if(ChromaPixelConfig.showFPS || showCoords || ChromaPixelConfig.showTime || ChromaPixelConfig.showIP || ChromaPixelConfig.showPlayers || ChromaPixelConfig.showPing || ChromaPixelConfig.showColoredPing || ChromaPixelConfig.showFacing){ display.add("  "); }
+			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Damage Reduction Values" + EnumChatFormatting.GRAY + "]"); 
+			display.add(display.size(), EnumChatFormatting.GRAY + "[" + mainColor + "Average" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(2));
+			if(ChromaPixelConfig.showAdvDmgReductHud) {
+				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Minimum" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(0));
+				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Maximum" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(1));
+			}
+		}
 		return display;
 	}
 
@@ -110,7 +125,7 @@ public class ExtraHUD {
 		}
 		return -3;
 	}
-	
+
 	private static int getPlayers() {
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		if (player == null) {
@@ -126,7 +141,7 @@ public class ExtraHUD {
 		}
 		return -3;
 	}
-	
+
 	private static String getTime() {
 		return new SimpleDateFormat("h:mm a").format(Calendar.getInstance().getTime());
 	}

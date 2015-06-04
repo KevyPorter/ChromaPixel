@@ -46,7 +46,7 @@ public class AfkCommand extends CommandBase
 			{
 				if (AfkListener.isAfk)
 				{
-					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "You are on longer AFK!"));
+					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "You are no longer AFK!"));
 					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "While you were AFK you received these messages:"));
 					for (int i = 0; i < AfkListener.afkMessages.size(); i++) {
 						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText((String)AfkListener.afkMessages.get(i)));

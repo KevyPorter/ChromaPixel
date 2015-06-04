@@ -39,7 +39,7 @@ extends CommandBase
 
 	public String getCommandUsage(ICommandSender sender)
 	{
-		return "/togglechat <main, party, guild, pms>";
+		return "/togglechat <main, party, guild, pms, shouts>";
 	}
 
 	public List addTabCompletionOptions(ICommandSender sender, String[] args)
@@ -49,6 +49,7 @@ extends CommandBase
 		tab.add("party");
 		tab.add("guild");
 		tab.add("pms");
+		tab.add("shouts");
 		return tab;
 	}
 
@@ -94,7 +95,19 @@ extends CommandBase
 					else
 					{
 						ToggleChatListener.pmsChat = true;
-						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "You will now see PMs."));
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "You will now see PMs!"));
+					}
+				}
+				else if (args[0].equalsIgnoreCase("shouts")) {
+					if (ToggleChatListener.pmsChat)
+					{
+						ToggleChatListener.pmsChat = false;
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You will no longer see Shouts!"));
+					}
+					else
+					{
+						ToggleChatListener.pmsChat = true;
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "You will now see Shouts!"));
 					}
 				}
 			}
@@ -106,6 +119,7 @@ extends CommandBase
 		{
 			e.printStackTrace();
 		}
+		
 	}
 
 }

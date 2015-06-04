@@ -27,7 +27,6 @@ public class ApiKeyHandler {
     private static String API_KEY_REQUEST_MESSAGE_2_PART1 = "Simply do ";
     private static String API_KEY_REQUEST_MESSAGE_2_PART2 = " for creating a new one.";
     private static String API_KEY_REQUEST_MESSAGE_3 = "You can also add your key manually to config\\hypixel_api_key.txt.";
-    private static String API_KEY_REQUEST_MESSAGE_4 = "If you don't want to use the API features, you can disable \"useAPI\" in the config";
     private static String EMPTY_FILE_CONTENT = "Replace this with the api key or do /api on Hypixel Network. This File gets reset when a key doesn't work.";
     private static String API_KEY_PATTERN = "[a-f0-9]{8}[-]([a-f0-9]{4}[-]){3}[a-f0-9]{12}";
 
@@ -70,7 +69,6 @@ public class ApiKeyHandler {
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();
-        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_4).send();
     }
 
     private void loadAPIKey() {
