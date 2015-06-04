@@ -1,3 +1,10 @@
-# ChromaPixel
 The ChromaPixel Mod
-http://hypixel.net/threads/1-7-10-chromapixel-mod.301461/
+======
+
+### Forums Thread
+https://hypixel.net/threads/mod-chromapixel-v0-8-1-by-kevy.331313/
+
+### Download
+http://tiny.cc/ChromaPixel
+
+### Features
