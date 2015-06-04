@@ -1,4 +1,4 @@
-The ChromaPixel Mod
+![Test](http://www.ournorthstar.com/wp-content/uploads/2013/10/test1.jpg)
 ======
 
 ### Forums Thread
