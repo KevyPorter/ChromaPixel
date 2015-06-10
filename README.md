@@ -26,7 +26,7 @@ View a player's stats in-game without having to go to a website. (Uses Hypixel's
 #### /togglechat <main, party, guild, pms>
 Toggles specific chats on and off.
 
-#### Armor
+#### /Armor
 Shows you how much damage will be reduced from your Armor, Armor Enchants and Potion Effects.
 
 #### Info HUD
