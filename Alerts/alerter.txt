@@ -1,4 +1,4 @@
-Chat§Kevy§This is a dank test;
-Chat§All§Dank memes inbound;
-Screen§Seal§Got any good features?;
-Screen§All§Update coming in about 5 mins :>;
+Kevy§This is a dank test;
+All§Dank memes inbound;
+Seal§Got any good features?;
+All§Update coming in about 5 mins :>;
