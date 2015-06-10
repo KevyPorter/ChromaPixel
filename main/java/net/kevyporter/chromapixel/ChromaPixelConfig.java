@@ -30,8 +30,6 @@ public class ChromaPixelConfig {
 	public static String mainColor;
 	public static String itemColor;
 	public static boolean usePotionColors;
-	public static boolean showDmgReductHud;
-	public static boolean showAdvDmgReductHud;
 	
 	public ChromaPixelConfig(File config) {
 		this.config = new Configuration(config, "1");
@@ -60,8 +58,6 @@ public class ChromaPixelConfig {
 		whereEffectHUD = this.config.getString("whereEffectHUD", CHROMAPIXEL_CATEGORY, EnumChatFormatting.RED + "Currently Disabled!", "Choose where to display the Effect HUD.\nCurrently Disabled.", new String[] {EnumChatFormatting.RED + "Currently Disabled!"});
 		mainColor = this.config.getString("mainColor", CHROMAPIXEL_CATEGORY, EnumChatFormatting.GOLD + "Gold", "Choose the main color of the HUD.\nCurrently Disabled.", colorValues);
 		itemColor = this.config.getString("itemColor", CHROMAPIXEL_CATEGORY, EnumChatFormatting.YELLOW + "Yellow", "Choose the item color of the HUD.\nCurrently Disabled.", colorValues);
-		showDmgReductHud = this.config.get(CHROMAPIXEL_CATEGORY, "showDmgReductHud", true, "Shows the total damage reduction that your\nArmor, Armor Protection Values & Potion Effects\nprovide.").getBoolean(true);
-		showAdvDmgReductHud = this.config.get(CHROMAPIXEL_CATEGORY, "showAdvDmgReductHud", true, "Shows the Min, Max and Average damge reduction values.").getBoolean(true);
 		
 		if(this.config.hasChanged()) {
 			this.config.save();

@@ -57,8 +57,6 @@ public class ChromaPixelMod
 	private KeyBinding hideArmorHUDKey;
 	private KeyBinding hideEffectHUDKey;
 	private KeyBinding hideCoordsKey;
-	private KeyBinding hideDmgReduction;
-	private KeyBinding simpleDmgRedcut;
 
 	private int ticker = 10;
 
@@ -97,15 +95,11 @@ public class ChromaPixelMod
 		this.hideCoordsKey = new KeyBinding("Hide HUD Coords", Keyboard.KEY_P, KEY_CATEGORY);
 		this.hideArmorHUDKey = new KeyBinding("Hide Armor HUD", Keyboard.KEY_K, KEY_CATEGORY);
 		this.hideEffectHUDKey = new KeyBinding("Hide Effect HUD", Keyboard.KEY_L, KEY_CATEGORY);
-		this.hideDmgReduction = new KeyBinding("Hide Damage Reduction HUD", Keyboard.KEY_H, KEY_CATEGORY);
-		this.simpleDmgRedcut = new KeyBinding("Simple or Advanced DmgReduct HUD", Keyboard.KEY_J, KEY_CATEGORY);
 		ClientRegistry.registerKeyBinding(this.showConfig);
 		ClientRegistry.registerKeyBinding(this.hideHUDKey);
 		ClientRegistry.registerKeyBinding(this.hideCoordsKey);
 		ClientRegistry.registerKeyBinding(this.hideArmorHUDKey);
 		ClientRegistry.registerKeyBinding(this.hideEffectHUDKey);
-		ClientRegistry.registerKeyBinding(this.hideDmgReduction);
-		ClientRegistry.registerKeyBinding(this.simpleDmgRedcut);
 	}
 
 	@SubscribeEvent
@@ -212,12 +206,6 @@ public class ChromaPixelMod
 			}
 			if(this.hideEffectHUDKey.isPressed()) {
 				EffectHUD.isEnabled = !EffectHUD.isEnabled;
-			}
-			if(this.hideDmgReduction.isPressed()) {
-				ChromaPixelConfig.showDmgReductHud = !ChromaPixelConfig.showDmgReductHud;
-			}
-			if(this.simpleDmgRedcut.isPressed()) {
-				ChromaPixelConfig.showAdvDmgReductHud = !ChromaPixelConfig.showAdvDmgReductHud;
 			}
 			if(this.showConfig.isPressed()) {
 				FMLClientHandler.instance().getClient().displayGuiScreen(new ChromaPixelConfigGui(null));
