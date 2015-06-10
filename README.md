@@ -2,7 +2,7 @@ The ChromaPixel Mod
 ======
 
 ### The Team:
-###### KevyPorter, Jacko & Seal.
+###### KevyPorter, Jacko, Seal and Eladkay.
 
 ### Forums Thread
 https://hypixel.net/threads/mod-chromapixel-v0-8-1-by-kevy.331313/
