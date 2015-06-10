@@ -1,6 +1,4 @@
-Type<Chat,Screen>:<Playername,All>:<Message &=§>;
-// examples
-Chat:Kevy:&3&lThis is a dank test;
-Chat:All:&dFrom &c[ADMIN] hypxiel: &7LOLOLOLOLOL;
-Screen:Seal:&6Got any good features?;
-Screen:All:&cUpdate coming in about 5 mins :>;
+Chat§Kevy§&3&lThis is a dank test;
+Chat§All§&dFrom &c[ADMIN] hypxiel: &7LOLOLOLOLOL;
+Screen§Seal§&6Got any good features?;
+Screen§All§&cUpdate coming in about 5 mins :>;
