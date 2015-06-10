@@ -1,1 +1,1 @@
-Type<Chat,Screen>:<Playername,All>:<Message &=§>
+Type<Chat,Screen>:<Playername,All>:<Message &=§>;
