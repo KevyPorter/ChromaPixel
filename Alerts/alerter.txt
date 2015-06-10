@@ -1,3 +1,1 @@
-This is a message that will tell you things :);
-This is a message that will also tell you things :P;
-This is a cancelled message because it contains this char '§';
+§No messages;
