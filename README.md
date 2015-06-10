@@ -1,6 +1,8 @@
 The ChromaPixel Mod
 ======
 
+![CP Logo](http://i.imgur.com/VPHLgFv.png)
+
 ### The Team:
 ###### KevyPorter, Jacko, Seal and Eladkay.
 
