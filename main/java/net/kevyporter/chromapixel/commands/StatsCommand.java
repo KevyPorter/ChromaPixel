@@ -1,7 +1,5 @@
 package net.kevyporter.chromapixel.commands;
 
-import net.kevyporter.chromapixel.dmgreduction.DmgReductionCalc;
-import net.kevyporter.chromapixel.dmgreduction.PlayerArmorInfo;
 import net.kevyporter.chromapixel.util.ChatMessageComposer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;

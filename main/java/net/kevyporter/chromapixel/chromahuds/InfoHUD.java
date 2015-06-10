@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import net.kevyporter.chromapixel.ChromaPixelConfig;
-import net.kevyporter.chromapixel.dmgreduction.DmgReductionCalc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -28,7 +27,6 @@ public class InfoHUD {
 
 	public static void renderDisplay() {
 		if (isEnabled) {
-			display = getInfoDisplay();
 			Minecraft mc = FMLClientHandler.instance().getClient();
 			ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 			int w = 1;
@@ -45,7 +43,7 @@ public class InfoHUD {
 		}
 	}
 
-	private static List getInfoDisplay() {
+	public static List getInfoDisplay() {
 		List<String> display = new ArrayList();
 		if(ChromaPixelConfig.showFPS) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "FPS" + EnumChatFormatting.GRAY + "] " + itemColor + getFPS()); }
 		if(showCoords) {
@@ -78,15 +76,6 @@ public class InfoHUD {
 			}
 		}
 		if(ChromaPixelConfig.showFacing) { display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Facing" + EnumChatFormatting.GRAY + "] " + itemColor + compass()); }
-		if(ChromaPixelConfig.showDmgReductHud) {
-			if(ChromaPixelConfig.showFPS || showCoords || ChromaPixelConfig.showTime || ChromaPixelConfig.showIP || ChromaPixelConfig.showPlayers || ChromaPixelConfig.showPing || ChromaPixelConfig.showColoredPing || ChromaPixelConfig.showFacing){ display.add("  "); }
-			display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Damage Reduction Values" + EnumChatFormatting.GRAY + "]"); 
-			display.add(display.size(), EnumChatFormatting.GRAY + "[" + mainColor + "Average" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(2));
-			if(ChromaPixelConfig.showAdvDmgReductHud) {
-				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Minimum" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(0));
-				display.add(EnumChatFormatting.GRAY + "[" + mainColor + "Maximum" + EnumChatFormatting.GRAY + "] " + itemColor + DmgReductionCalc.getReduction().get(1));
-			}
-		}
 		return display;
 	}
 

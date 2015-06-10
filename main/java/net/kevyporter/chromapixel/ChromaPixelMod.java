@@ -6,6 +6,7 @@ import net.kevyporter.chromapixel.chromahuds.EffectHUD;
 import net.kevyporter.chromapixel.chromahuds.InfoHUD;
 import net.kevyporter.chromapixel.listeners.AutoLobbyCommand;
 import net.kevyporter.chromapixel.util.ChromaUtils;
+import net.kevyporter.chromapixel.util.UuidHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -37,13 +38,14 @@ public class ChromaPixelMod
 {
 	public static final String MODID = "tYSKretsvEuPdDx";
 	public static final String NAME = "ChromaPixel";
-	public static final String VERSION = "0.8.6";
+	public static final String VERSION = "0.8.9";
 	public static final boolean IS_DEBUGGING = false;
 	public static final String CHROMA_PIXEL = "" + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD + "Chroma" + EnumChatFormatting.AQUA + EnumChatFormatting.BOLD + "Pixel";
 
 	private static ChromaPixelMod instance;
 
 	public static boolean isUpdate = false;
+	private int updateTime = 0;
 	public Logger LOGGER;
 	public ChromaPixelConfig CONFIG;
 	private boolean isUpdateMessageQueued;
@@ -58,7 +60,12 @@ public class ChromaPixelMod
 	private KeyBinding hideDmgReduction;
 	private KeyBinding simpleDmgRedcut;
 
+	private int ticker = 10;
+
 	private AutoLobbyCommand lobbyCommandConfirmer;
+
+	private boolean gotPlayersUUID = false;
+	private String playersUUID = "";
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -117,7 +124,39 @@ public class ChromaPixelMod
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent event) {
 		try {
-			this.apiQueue.onClientTick();
+			if(Minecraft.getMinecraft().inGameHasFocus) {
+				if(!playersUUID.isEmpty()) {
+					gotPlayersUUID = true;
+				}
+				if(!gotPlayersUUID) {
+					playersUUID = UuidHelper.getUUIDFromUsername(Minecraft.getMinecraft().thePlayer.getDisplayName());
+					System.out.println(playersUUID);
+				}
+			}
+			if(Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().func_147104_D() != null) {
+				this.apiQueue.onClientTick();
+				if(isUpdate) {
+					if(updateTime != 200) {
+						updateTime += 1;
+					}
+					if(updateTime == 200) {
+						isUpdate = false;
+						updateTime = 0;
+					}
+				}
+				if(ticker == 0) {
+					if(InfoHUD.isEnabled) {
+						InfoHUD.display = InfoHUD.getInfoDisplay();
+					}
+
+					if(ArmorHUD.isEnabled) {
+						ArmorHUD.getInventory();
+					}
+				}
+				if(ticker == 10) {
+					ticker = 0;
+				}
+			}
 		} catch(Exception e) {
 			logWarn("An exception occured in onClientTick(). Stacktrace below.");
 			e.printStackTrace();
@@ -128,23 +167,12 @@ public class ChromaPixelMod
 	public void onRenderTick(RenderTickEvent event) {
 		try {
 			if(Minecraft.getMinecraft().func_147104_D() != null){
-				if(IS_DEBUGGING) {
-					if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat))) {
-						ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-						FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-						String debug = EnumChatFormatting.RED + "DEBUG";
-						int y = res.getScaledHeight() / 2 - 10;
-						int x = res.getScaledWidth() / 2 - (fontRenderer.getStringWidth(debug) / 2);
-						fontRenderer.drawString(debug, x, y, 0xffffff, true);
-					}
-				}
-
 				if(isUpdate) {
 					if ((!Minecraft.getMinecraft().gameSettings.showDebugInfo) && (Minecraft.getMinecraft().inGameHasFocus) && (!(Minecraft.getMinecraft().currentScreen instanceof GuiChat))) {
 						ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 						FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 						String updateMessage = EnumChatFormatting.RED + "UPDATE Version: " + EnumChatFormatting.YELLOW + ChromaPixelUpdater.update;
-						String forumLink = EnumChatFormatting.GOLD + "Download from here: " + EnumChatFormatting.GREEN + "tiny.cc/ChromaPixel";
+						String forumLink = EnumChatFormatting.GOLD + "Download from here: " + EnumChatFormatting.GREEN + "http://tiny.cc/ChromaPixel";
 						int y = res.getScaledHeight() / 2 - 10;
 						int x = res.getScaledWidth() / 2 - (fontRenderer.getStringWidth(updateMessage) / 2);
 						fontRenderer.drawString(updateMessage, x, y, 0xffffff, true);
@@ -157,10 +185,10 @@ public class ChromaPixelMod
 					if(this.CONFIG.showLogo) {
 						Minecraft.getMinecraft().fontRenderer.drawString(ChromaPixelMod.CHROMA_PIXEL + EnumChatFormatting.GOLD + " " + ChromaPixelMod.VERSION + EnumChatFormatting.BOLD + " BETA", 1, 1, 0xffffff);
 					}
+					if(ArmorHUD.isEnabled) { ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight); Minecraft.getMinecraft().fontRenderer.drawString(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]", res.getScaledWidth() - (Minecraft.getMinecraft().fontRenderer.getStringWidth(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]") + 1), 15, 0xffffff); }
+
 					InfoHUD.renderDisplay();
 					ArmorHUD.render();
-					// Color goes weird when rendering in the actual class :/
-					if(ArmorHUD.isEnabled) { ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight); Minecraft.getMinecraft().fontRenderer.drawString(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]", res.getScaledWidth() - (Minecraft.getMinecraft().fontRenderer.getStringWidth(EnumChatFormatting.GRAY + "[" + InfoHUD.mainColor + "Armor HUD" + EnumChatFormatting.GRAY + "]") + 1), 15, 0xffffff); }
 					EffectHUD.render();
 				}
 			}

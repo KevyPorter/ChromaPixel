@@ -8,21 +8,22 @@ import net.minecraft.util.ChatComponentText;
 
 public class DmgReductionCalc {
 
-	public static List<String> getReduction() {
-		List<String> armorReduct = new ArrayList<String>();
-		double armor = PlayerArmorInfo.getHelmet() + PlayerArmorInfo.getChestplate() + PlayerArmorInfo.getPants() + PlayerArmorInfo.getBoots();
-		double epf = calcArmorEpf();
-		double avgdef = addArmorProtResistance(armor, calcProtection(epf), PlayerArmorInfo.getResistance());
-		double mindef = addArmorProtResistance(armor, Math.ceil(epf / 2.0D), PlayerArmorInfo.getResistance());
-		double maxdef = addArmorProtResistance(armor, Math.ceil(epf < 20.0D ? epf : 20.0D), PlayerArmorInfo.getResistance());
-		double min = Math.round(roundDouble(mindef * 100.0D) * 100) / 100;
-		double max = Math.round(roundDouble(maxdef * 100.0D) * 100) / 100;
-		double avg = Math.round(roundDouble(avgdef * 100.0D) * 100) / 100;
+	public static List<String> armorReduct = new ArrayList<String>();
+	
+	public static void getReduction() {
 		armorReduct.clear();
-		armorReduct.add(0, min + "%");
-		armorReduct.add(1, max + "%"); 
-		armorReduct.add(2, avg + "%"); 
-		return armorReduct;
+		PlayerArmorInfo.getValues();
+		double armor = PlayerArmorInfo.helmet + PlayerArmorInfo.chest + PlayerArmorInfo.pants + PlayerArmorInfo.boots;
+		double epf = calcArmorEpf();
+		double avgdef = addArmorProtResistance(armor, calcProtection(epf), PlayerArmorInfo.resistance);
+		double mindef = addArmorProtResistance(armor, Math.ceil(epf / 2.0D), PlayerArmorInfo.resistance);
+		double maxdef = addArmorProtResistance(armor, Math.ceil(epf < 20.0D ? epf : 20.0D), PlayerArmorInfo.resistance);
+		double min = roundDouble(mindef * 100.0D);
+		double max = roundDouble(maxdef * 100.0D);
+		double avg = roundDouble(avgdef * 100.0D);
+		armorReduct.add(0, min + "");
+		armorReduct.add(1, max + ""); 
+		armorReduct.add(2, avg + ""); 
 	}
 
 	private static double addArmorProtResistance(double armor, double prot, int resi) {
@@ -40,7 +41,7 @@ public class DmgReductionCalc {
 	}
 
 	private static double calcArmorEpf() {
-		double prot = calcEpf(PlayerArmorInfo.getHelmetProtection()) + calcEpf(PlayerArmorInfo.getChestplateProtection()) + calcEpf(PlayerArmorInfo.getPantsProtection()) + calcEpf(PlayerArmorInfo.getBootsProtection());
+		double prot = calcEpf(PlayerArmorInfo.helmetProt) + calcEpf(PlayerArmorInfo.chestProt) + calcEpf(PlayerArmorInfo.pantsProt) + calcEpf(PlayerArmorInfo.bootsProt);
 		return prot < 25.0D ? prot : 25.0D;
 	}
 

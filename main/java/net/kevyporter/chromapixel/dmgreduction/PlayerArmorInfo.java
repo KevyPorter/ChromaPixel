@@ -3,100 +3,149 @@ package net.kevyporter.chromapixel.dmgreduction;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.lwjgl.opengl.GL11;
-
-import net.kevyporter.chromapixel.chromahuds.InfoHUD;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionHelper;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ChatComponentText;
 
 public class PlayerArmorInfo {
 
 	private static Minecraft mc = Minecraft.getMinecraft();
-	private static EntityClientPlayerMP player = mc.thePlayer;
 
-	public static double getHelmet() {
-		if(player.inventory.armorItemInSlot(3) != null) {
-			switch(Item.getIdFromItem(player.inventory.armorItemInSlot(3).getItem())) {
-			case 298:
-				return 0.04;
-			case 314:
-				return 0.08;
-			case 302:
-				return 0.08;
-			case 306:
-				return 0.08;
-			case 310:
-				return 0.12;
-			}
+	public static double helmet = 0.0;
+	public static double chest = 0.0;
+	public static double pants = 0.0;
+	public static double boots = 0.0;
+
+	public static int helmetProt = 0;
+	public static int chestProt = 0;
+	public static int pantsProt = 0;
+	public static int bootsProt = 0;
+
+	public static int resistance = 0;
+
+	public static void getValues() {
+		helmet = 0.0;
+		chest = 0.0;
+		pants = 0.0;
+		boots = 0.0;
+		helmetProt = 0;
+		chestProt = 0;
+		pantsProt = 0;
+		bootsProt = 0;
+		resistance = 0;
+
+		if(mc.thePlayer.inventory.armorInventory[3] != null) {
+			getHelmet();
+			getHelmetProtection();
+		} else {
+			helmet = 0.0;
+			helmetProt = 0;
 		}
-		return 0.0;
+		if(mc.thePlayer.inventory.armorInventory[2] != null) {
+			getChestplate();
+			getChestplateProtection();
+		} else {
+			chest = 0.0;
+			chestProt = 0;
+		}
+		if(mc.thePlayer.inventory.armorInventory[1] != null) {
+			getPants();
+			getPantsProtection();
+		} else {
+			pants = 0.0;
+			pantsProt = 0;
+		}
+		if(mc.thePlayer.inventory.armorInventory[0] != null) {
+			getBoots();
+			getBootsProtection();
+		} else {
+			boots = 0.0;
+			bootsProt = 0;
+		}
+		if(mc.thePlayer.getActivePotionEffects() != null) {
+			getResistance();
+		} else {
+			resistance = 0;
+		}
 	}
 
-	public static double getChestplate() {
-		if(player.inventory.armorItemInSlot(2) != null) {
-			switch(Item.getIdFromItem(player.inventory.armorItemInSlot(2).getItem())) {
-			case 299:
-				return 0.12;
-			case 315:
-				return 0.20;
-			case 303:
-				return 0.20;
-			case 307:
-				return 0.24;
-			case 311:
-				return 0.32;
-			}
+	private static void getHelmet() {
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(3).getItem()) == 298) {
+			helmet = 0.04;
 		}
-		return 0.0;
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(3).getItem()) == 314) {
+			helmet = 0.08;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(3).getItem()) == 302) {
+			helmet = 0.08;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(3).getItem()) == 306) {
+			helmet = 0.08;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(3).getItem()) == 310) {
+			helmet = 0.12;
+		}
 	}
 
-	public static double getPants() {
-		if(player.inventory.armorItemInSlot(1) != null) {
-			switch(Item.getIdFromItem(player.inventory.armorItemInSlot(1).getItem())) {
-			case 300:
-				return 0.08;
-			case 316:
-				return 0.12;
-			case 304:
-				return 0.16;
-			case 308:
-				return 0.20;
-			case 312:
-				return 0.24;
-			}
+	private static void getChestplate() {
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(2).getItem()) == 299) {
+			chest = 0.12;
 		}
-		return 0.0;
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(2).getItem()) == 315) {
+			chest = 0.20;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(2).getItem()) == 303) {
+			chest = 0.20;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(2).getItem()) == 307) {
+			chest = 0.24;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(2).getItem()) == 311) {
+			chest = 0.32;
+		}
 	}
 
-	public static double getBoots() {
-		if(player.inventory.armorItemInSlot(0) != null) {
-			switch(Item.getIdFromItem(player.inventory.armorItemInSlot(0).getItem())) {
-			case 301:
-				return 0.04;
-			case 317:
-				return 0.04;
-			case 305:
-				return 0.04;
-			case 309:
-				return 0.08;
-			case 313:
-				return 0.12;
-			}
+	private static void getPants() {
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(1).getItem()) == 300) {
+			pants = 0.08;
 		}
-		return 0.0;
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(1).getItem()) == 316) {
+			pants = 0.12;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(1).getItem()) == 304) {
+			pants = 0.16;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(1).getItem()) == 308) {
+			pants = 0.20;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(1).getItem()) == 312) {
+			pants = 0.24;
+		}
 	}
 
-	public static int getResistance() {
-		if(player.isPotionActive(Potion.resistance)){
+	private static void getBoots() {
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(0).getItem()) == 301) {
+			boots = 0.04;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(0).getItem()) == 317) {
+			boots = 0.04;
+		}	
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(0).getItem()) == 305) {
+			boots = 0.04;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(0).getItem()) == 309) {
+			boots = 0.08;
+		}
+		if(Item.getIdFromItem(mc.thePlayer.inventory.armorItemInSlot(0).getItem()) == 313) {
+			boots = 0.12;
+		}
+	}
+
+	private static void getResistance() {
+		if(mc.thePlayer.isPotionActive(Potion.resistance)){
 			Collection potionEffects = mc.thePlayer.getActivePotionEffects();
 			Iterator it = potionEffects.iterator();
 			while (it.hasNext())
@@ -104,39 +153,44 @@ public class PlayerArmorInfo {
 				PotionEffect potionEffect = (PotionEffect)it.next();
 				Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
 				if(potion.getName().equalsIgnoreCase(Potion.resistance.getName())) {
-					return potionEffect.getAmplifier() + 1;
+					resistance = potionEffect.getAmplifier() + 1;
 				}
 			}
+		} else {
+			resistance = 0;
 		}
-		return 0;
 	}
 
-	public static int getHelmetProtection() {
-		if(player.inventory.armorItemInSlot(3) != null) {
-			return EnchantmentHelper.getEnchantmentLevel(0, player.inventory.armorItemInSlot(3));
-		} 
-		return 0;
+	private static void getHelmetProtection() {
+		if(helmet != 0) {
+			helmetProt = EnchantmentHelper.getEnchantmentLevel(0, mc.thePlayer.inventory.armorItemInSlot(3));
+		} else {
+			helmetProt = 0;
+		}
 	}
 
-	public static int getChestplateProtection() {
-		if(player.inventory.armorItemInSlot(2) != null) {
-			return EnchantmentHelper.getEnchantmentLevel(0, player.inventory.armorItemInSlot(2));
-		} 
-		return 0;
+	private static void getChestplateProtection() {
+		if(chest != 0) {
+			chestProt = EnchantmentHelper.getEnchantmentLevel(0, mc.thePlayer.inventory.armorItemInSlot(2));
+		} else {
+			chestProt = 0;
+		}
 	}
 
-	public static int getPantsProtection() {
-		if(player.inventory.armorItemInSlot(1) != null) {
-			return EnchantmentHelper.getEnchantmentLevel(0, player.inventory.armorItemInSlot(1));
-		} 
-		return 0;
+	private static void getPantsProtection() {
+		if(pants != 0) {
+			pantsProt = EnchantmentHelper.getEnchantmentLevel(0, mc.thePlayer.inventory.armorItemInSlot(1));
+		} else {
+			pantsProt = 0;
+		}
 	}
 
-	public static int getBootsProtection() {
-		if(player.inventory.armorItemInSlot(0) != null) {
-			return EnchantmentHelper.getEnchantmentLevel(0, player.inventory.armorItemInSlot(0));
-		} 
-		return 0;
+	private static void getBootsProtection() {
+		if(boots != 0) {
+			bootsProt = EnchantmentHelper.getEnchantmentLevel(0, mc.thePlayer.inventory.armorItemInSlot(0));
+		} else {
+			bootsProt = 0;
+		}
 	}
 
 }

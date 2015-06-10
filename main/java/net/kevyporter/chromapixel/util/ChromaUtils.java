@@ -1,6 +1,7 @@
 package net.kevyporter.chromapixel.util;
 
 import net.kevyporter.chromapixel.commands.AfkCommand;
+import net.kevyporter.chromapixel.commands.DamageReductionCommand;
 import net.kevyporter.chromapixel.commands.GetStatsCommand;
 import net.kevyporter.chromapixel.commands.NameViewCommand;
 import net.kevyporter.chromapixel.commands.StatsCommand;
@@ -25,6 +26,7 @@ public class ChromaUtils {
 		ClientCommandHandler.instance.registerCommand(new NameViewCommand());
 		ClientCommandHandler.instance.registerCommand(new StatsCommand());
 		ClientCommandHandler.instance.registerCommand(new ToggleChatCommand());
+		ClientCommandHandler.instance.registerCommand(new DamageReductionCommand());
 	}
 	
 }

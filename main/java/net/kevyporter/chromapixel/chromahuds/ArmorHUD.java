@@ -30,7 +30,6 @@ public class ArmorHUD {
 			RenderHelper.enableGUIStandardItemLighting();
 			RenderItem itemRenderer = new RenderItem();
 			int h = 25;
-			getInventory();
 			for(int i = 0; i < inv.size(); i++) {
 				itemRenderer.renderItemAndEffectIntoGUI(Minecraft.getMinecraft().fontRenderer, Minecraft.getMinecraft().getTextureManager(), inv.get(i), res.getScaledWidth() - 20, h);
 				h += 16;
@@ -42,7 +41,7 @@ public class ArmorHUD {
 		}
 	}
 
-	private static List<ItemStack> getInventory() {
+	public static void getInventory() {
 		inv.clear();
 		if(Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() != null) {
 			inv.add(0, Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem());
@@ -59,7 +58,6 @@ public class ArmorHUD {
 		if(Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(0) != null) {
 			inv.add(Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(0));
 		}
-		return inv;
 	}
 
 }
